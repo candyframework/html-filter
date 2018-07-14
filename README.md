@@ -1,4 +1,4 @@
-### html 过滤库
+### html 过滤库 A library for filtering HTML tags and attributes written in JavaScript
 
 ###### demo
 
