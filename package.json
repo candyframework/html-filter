@@ -1,0 +1,19 @@
+{
+  "name": "xhtml",
+  "version": "1.0.0",
+  "description": "A library for filtering HTML tags and attributes written in JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yulipu/xhtml.git"
+  },
+  "author": "afu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yulipu/xhtml/issues"
+  },
+  "homepage": "https://github.com/yulipu/xhtml#readme"
+}
