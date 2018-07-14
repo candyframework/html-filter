@@ -1,11 +1,17 @@
 {
   "name": "afu-xhtml",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library for filtering HTML tags and attributes written in JavaScript",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "filter",
+    "html",
+    "attributes",
+    "tags"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yulipu/xhtml.git"
