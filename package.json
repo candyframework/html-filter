@@ -1,5 +1,5 @@
 {
-  "name": "xhtml",
+  "name": "afu-xhtml",
   "version": "1.0.0",
   "description": "A library for filtering HTML tags and attributes written in JavaScript",
   "main": "index.js",
