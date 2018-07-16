@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>XHtml</title>
-    <script src="../src/XHtml.js"></script>
+    <title>XDom</title>
+    <script>var module = {exports: {}}</script>
+    <script src="../src/XDom.js"></script>
 </head>
 <body>
-<div id="container"></div>
-
 <script>
 var html =
 `
@@ -23,8 +22,7 @@ var html =
 </div>
 `;
 
-// 过滤标签和属性 filter tags & attributes
-var obj = new XHtml();
+var obj = new XDom();
 obj.allowedTags = {
     p: null,  // not support attr
     div: {id: 1, style: 1},  // support id and style attr
@@ -32,8 +30,7 @@ obj.allowedTags = {
 };
 obj.parse(html);
 
-console.log(obj.getHtml())
-document.getElementById('container').innerHTML = obj.getHtml();
+console.log(obj.getDom());
 </script>
 </body>
 </html>

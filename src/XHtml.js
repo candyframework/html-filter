@@ -119,8 +119,11 @@ XHtml.prototype = {
 
         nodeString = '<' + nodeName;
         
-        for(var k in attrs) {
-            nodeString += (' ' + k + '="' + attrs[k] + '"');
+        // null means not support attributes
+        if(null !== allowedAttributes) {
+            for(var k in attrs) {
+                nodeString += (' ' + k + '="' + attrs[k] + '"');
+            }
         }
         
         // selfClosingTag
@@ -227,7 +230,7 @@ XHtml.prototype = {
 };
 
 /**
- * 自闭和标签
+ * selfClosingTag
  */
 XHtml.selfClosingTags = {
     meta: 1,

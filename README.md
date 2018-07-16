@@ -21,7 +21,6 @@ var html =
 </div>
 `;
 
-// 过滤标签和属性 filter tags & attributes
 var obj = new XHtml();
 obj.allowedTags = {
     p: null,  // not support attr
@@ -61,7 +60,6 @@ var html =
 </div>
 `;
 
-// 过滤标签和属性 filter tags & attributes
 var obj = new XHtml.XDom();
 obj.allowedTags = {
     p: null,  // not support attr

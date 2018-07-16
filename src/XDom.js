@@ -101,8 +101,10 @@ XDom.prototype = {
 
         var node = this.doc.createElement(nodeName);
         
-        for(var k in attrs) {
-            node.setAttribute(k, attrs[k]);
+        if(null !== allowedAttributes) {
+            for(var k in attrs) {
+                node.setAttribute(k, attrs[k]);
+            }
         }
         
         // 设置了标签过滤
@@ -220,7 +222,7 @@ XDom.prototype = {
 };
 
 /**
- * 自闭和标签
+ * selfClosingTag
  */
 XDom.selfClosingTags = {
     meta: 1,
