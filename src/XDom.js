@@ -1,11 +1,11 @@
 /**
- * XHtml
+ * XDom
  */
 'use strict';
 
-module.exports = XHtml;
+module.exports = XDom;
 
-function XHtml() {
+function XDom() {
     this.doc = document;
     this.topRole = 'xhtml-wrapper';
     this.unsafeRole = 'unsafe';
@@ -39,12 +39,12 @@ function XHtml() {
     
     this.resetStack();
 }
-XHtml.prototype = {
-    constructor: XHtml,
+XDom.prototype = {
+    constructor: XDom,
     
     resetStack: function() {
         // 存放父容器
-        this.lookingBackTagstack = new XStack();
+        this.lookingBackTagstack = new XDomStack();
         
         // 初始放入一个顶级容器
         var node = this.doc.createElement('div');
@@ -103,20 +103,20 @@ XHtml.prototype = {
         this.lookingBackTagstack.getTail().appendChild(node);
         
         // 直接删除不安全自闭合标签
-        if(1 === XHtml.selfClosingTags[nodeName]
+        if(1 === XDom.selfClosingTags[nodeName]
             && this.unsafeRole === node.getAttribute('data-role')) {
             this.lookingBackTagstack.getTail().removeChild(node);
         }
         */
-        if(1 !== XHtml.selfClosingTags[nodeName]
-            || (1 === XHtml.selfClosingTags[nodeName]
+        if(1 !== XDom.selfClosingTags[nodeName]
+            || (1 === XDom.selfClosingTags[nodeName]
                 && this.unsafeRole !== node.getAttribute('data-role'))) {
             
             this.lookingBackTagstack.getTail().appendChild(node);
         }
 
         // 开始标签入栈 可以作为父容器使用
-        if(1 !== XHtml.selfClosingTags[nodeName]) {
+        if(1 !== XDom.selfClosingTags[nodeName]) {
             this.lookingBackTagstack.push(node);
         }
         
@@ -170,7 +170,7 @@ XHtml.prototype = {
                         var attrName = attrParts[1];
                         var attrValue = attrParts[2] || attrParts[3] || attrParts[4] || '';
 
-                        if(XHtml.emptyAttributes[attrName]) {
+                        if(XDom.emptyAttributes[attrName]) {
                             attrs[attrName] = attrName;
 
                         } else {
@@ -203,20 +203,13 @@ XHtml.prototype = {
      */
     getDom: function() {
         return this.lookingBackTagstack.getHead();
-    },
-    
-    /**
-     * 获取 html
-     */
-    getHtml: function() {        
-        return this.lookingBackTagstack.getHead().innerHTML;
     }
 };
 
 /**
  * 自闭和标签
  */
-XHtml.selfClosingTags = {
+XDom.selfClosingTags = {
     meta: 1,
     base: 1,
     link: 1,
@@ -237,7 +230,7 @@ XHtml.selfClosingTags = {
 /**
  * 可以为空的属性
  */
-XHtml.emptyAttributes = {
+XDom.emptyAttributes = {
     checked: 1,
     compact: 1,
     declare: 1,
@@ -256,16 +249,16 @@ XHtml.emptyAttributes = {
 /**
  * Stack
  */
-function XStack() {
+function XDomStack() {
     this.headNode = null;
     this.tailNode = null;
     this.size = 0;
 }
-XStack.prototype = {
-    constructor: XStack,
+XDomStack.prototype = {
+    constructor: XDomStack,
 
     push: function(data) {
-        var node = new XStackNode(data, null, null);
+        var node = new XDomStackNode(data, null, null);
 
         if(0 === this.size) {
             this.headNode = node;
@@ -313,23 +306,13 @@ XStack.prototype = {
         while(0 !== this.size) {
             this.pop();
         }
-    },
-
-    toString: function() {
-        var str = '[ ';
-
-        for(var current = this.headNode; null !== current; current = current.next) {
-            str += current.data + ' ';
-        }
-
-        return str + ' ]';
     }
 };
 
 /**
  * Node
  */
-function XStackNode(data, prev, next) {
+function XDomStackNode(data, prev, next) {
     this.data = data;
     this.prev = prev;
     this.next = next;
