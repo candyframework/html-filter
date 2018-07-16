@@ -1,11 +1,11 @@
 /**
- * XHtml
+ * HtmlFilter
  */
 'use strict';
 
-module.exports = XHtml;
+module.exports = HtmlFilter;
 
-function XHtml() {
+function HtmlFilter() {
     
     // <(xxx)( data-name="lisi") xxx />
     // </(xxx)>
@@ -34,8 +34,8 @@ function XHtml() {
     this.reset();
     
 }
-XHtml.prototype = {
-    constructor: XHtml,
+HtmlFilter.prototype = {
+    constructor: HtmlFilter,
     reset: function() {
         this.htmlString = '';
         
@@ -49,7 +49,7 @@ XHtml.prototype = {
      * @return Boolean
      */
     isSelfClosingTag: function(nodeName) {
-        return 1 === XHtml.selfClosingTags[nodeName];
+        return 1 === HtmlFilter.selfClosingTags[nodeName];
     },
     
     /**
@@ -127,7 +127,7 @@ XHtml.prototype = {
         }
         
         // selfClosingTag
-        if(1 === XHtml.selfClosingTags[nodeName]) {
+        if(1 === HtmlFilter.selfClosingTags[nodeName]) {
             nodeString += ' /';
         }
         
@@ -200,7 +200,7 @@ XHtml.prototype = {
                         var attrName = attrParts[1];
                         var attrValue = attrParts[2] || attrParts[3] || attrParts[4] || '';
 
-                        if(XHtml.emptyAttributes[attrName]) {
+                        if(HtmlFilter.emptyAttributes[attrName]) {
                             attrs[attrName] = attrName;
 
                         } else {
@@ -232,7 +232,7 @@ XHtml.prototype = {
 /**
  * selfClosingTag
  */
-XHtml.selfClosingTags = {
+HtmlFilter.selfClosingTags = {
     meta: 1,
     base: 1,
     link: 1,
@@ -253,7 +253,7 @@ XHtml.selfClosingTags = {
 /**
  * 可以为空的属性
  */
-XHtml.emptyAttributes = {
+HtmlFilter.emptyAttributes = {
     checked: 1,
     compact: 1,
     declare: 1,

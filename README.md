@@ -2,7 +2,7 @@
 
 ### change log
 
-+ npm 2.0.1 change attributes config
++ publish 1.x
 
 ### 过滤标签和属性 - filter tags and attributes
 
@@ -21,7 +21,7 @@ var html =
 </div>
 `;
 
-var obj = new XHtml();
+var obj = new HtmlFilter();
 obj.allowedTags = {
     p: null,  // not support attr
     div: {id: 1, style: 1},  // support id and style attr
@@ -60,7 +60,7 @@ var html =
 </div>
 `;
 
-var obj = new XHtml.XDom();
+var obj = new HtmlFilter.XDom();
 obj.allowedTags = {
     p: null,  // not support attr
     div: {id: 1, style: 1},  // support id and style attr

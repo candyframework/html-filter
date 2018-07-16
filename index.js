@@ -1,8 +1,8 @@
 'use strict';
 
-var XHtml = require('./src/XHtml');
+var HtmlFilter = require('./src/HtmlFilter');
 var XDom = require('./src/XDom');
 
-XHtml.XDom = XDom;
+HtmlFilter.XDom = XDom;
 
-module.exports = XHtml;
+module.exports = HtmlFilter;

@@ -1,4 +1,4 @@
-var XHtml = require('../src/XHtml');
+var HtmlFilter = require('../index.js');
 
 var html =
 `
@@ -14,7 +14,7 @@ var html =
 </div>
 `;
 
-var obj = new XHtml();
+var obj = new HtmlFilter();
 obj.allowedTags = {
     p: null,  // not support attr
     div: {id: 1, style: 1},  // support id and style attr
