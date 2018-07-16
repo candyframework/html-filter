@@ -23,16 +23,13 @@ function XHtml() {
     /**
      * Legal tags
      *
-     * {p: true, div: true ...}
+     * {
+     *     p: null,
+     *     img: {src: 1, width: 1, height: 1},
+     *     ...
+     * }
      */
     this.allowedTags = null;
-    
-    /**
-     * Legal attribute
-     *
-     * {id: true, style: true ...}
-     */
-    this.allowedAttributes = null;
     
     this.reset();
     
@@ -45,16 +42,44 @@ XHtml.prototype = {
         this.illegalStack = new XStack();
     },
     
+    /**
+     * Determine whether a tag is a selfClosingTag
+     *
+     * @param {String} nodeName
+     * @return Boolean
+     */
     isSelfClosingTag: function(nodeName) {
         return 1 === XHtml.selfClosingTags[nodeName];
     },
+    
+    /**
+     * Get the support attributes of a tag
+     *
+     * @param {String} nodeName
+     * @return null | Object
+     */
+    getAllowedAttributes: function(nodeName) {
+        // tag not in white list or tag not support attributes
+        if(undefined === this.allowedTags[nodeName] || null === this.allowedTags[nodeName]) {
+            return null;
+        }
         
+        return this.allowedTags[nodeName];
+    },
+    
+    /**
+     * Determine whether the tag is legitimate
+     *
+     * @param {String} nodeName
+     * @return Boolean
+     */
     isAllowedTag: function(nodeName) {
         if(null === this.allowedTags) {
             return true;
         }
         
         // white list
+        // null is exists yet
         if(undefined !== this.allowedTags[nodeName]) {
             return true;
         }
@@ -83,9 +108,10 @@ XHtml.prototype = {
         }
         
         // attributes filter
-        if(null !== this.allowedAttributes) {
+        var allowedAttributes = this.getAllowedAttributes(nodeName);
+        if(null !== allowedAttributes) {
             for(var k in attrs) {
-                if(undefined === this.allowedAttributes[k]) {
+                if(undefined === allowedAttributes[k]) {
                     delete attrs[k];
                 }
             }
@@ -123,7 +149,7 @@ XHtml.prototype = {
     onComment: function(content) {
         this.onText(content);
     },
-
+    
     onText: function(text) {
         if(this.illegalStack.size > 0) {
             return;
@@ -133,7 +159,7 @@ XHtml.prototype = {
     },
     
     /**
-     * 解析 html
+     * parse html
      *
      * @param {String} html
      */
@@ -193,7 +219,7 @@ XHtml.prototype = {
     },
     
     /**
-     * 获取 html
+     * get html
      */
     getHtml: function() {        
         return this.htmlString;

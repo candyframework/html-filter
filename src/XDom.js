@@ -24,18 +24,15 @@ function XDom() {
     this.attributesRegex = /([\w\-:]+)\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^>\s]+))/g;
     
     /**
-     * 合法的标签
+     * Legal tags
      *
-     * {p: true, div: true ...}
+     * {
+     *     p: null,
+     *     img: {src: 1, width: 1, height: 1},
+     *     ...
+     * }
      */
     this.allowedTags = null;
-    
-    /**
-     * 合法的属性
-     *
-     * {id: true, style: true ...}
-     */
-    this.allowedAttributes = null;
     
     this.resetStack();
 }
@@ -52,6 +49,21 @@ XDom.prototype = {
         this.lookingBackTagstack.push(node);
         
         node = null;
+    },
+    
+    /**
+     * Get the support attributes of a tag
+     *
+     * @param {String} nodeName
+     * @return null | Object
+     */
+    getAllowedAttributes: function(nodeName) {
+        // tag not in white list or tag not support attributes
+        if(undefined === this.allowedTags[nodeName] || null === this.allowedTags[nodeName]) {
+            return null;
+        }
+        
+        return this.allowedTags[nodeName];
     },
 
     onText: function(text) {
@@ -77,10 +89,11 @@ XDom.prototype = {
         var nodeName = tagName.toLowerCase();
         var attrs = attributes;
         
-        // 设置了属性过滤
-        if(null !== this.allowedAttributes) {
+        // attributes filter
+        var allowedAttributes = this.getAllowedAttributes(nodeName);
+        if(null !== allowedAttributes) {
             for(var k in attrs) {
-                if(undefined === this.allowedAttributes[k]) {
+                if(undefined === allowedAttributes[k]) {
                     delete attrs[k];
                 }
             }
@@ -132,7 +145,7 @@ XDom.prototype = {
     },
 
     /**
-     * 解析 html
+     * parse html
      *
      * @param {String} html
      */
@@ -197,7 +210,7 @@ XDom.prototype = {
     },
 
     /**
-     * 获取 dom
+     * get dom
      *
      * @return Object
      */

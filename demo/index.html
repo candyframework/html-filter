@@ -12,8 +12,9 @@
 var html =
 `
 <h1><br /><h1>user info</h1></h1>
-<div id="aaa" style="border: 1px solid red">
-    <p>Hello</p>
+<div id="myid" style="border: 1px solid red">
+    <div style="font-weight: bold">Hello</div>
+    <br />
     <div id="user" onclick="alert(1)">
         <p>zhangsan</p>
         <p>male</p>
@@ -24,8 +25,11 @@ var html =
 
 // 过滤标签和属性 filter tags & attributes
 var obj = new XHtml();
-obj.allowedTags = {div: true, p: true, br: true};
-obj.allowedAttributes = {id: true, style: true};
+obj.allowedTags = {
+    p: null,  // not support attr
+    div: {id: 1, style: 1},  // support id and style attr
+    br: null
+};
 obj.parse(html);
 
 console.log(obj.getHtml())

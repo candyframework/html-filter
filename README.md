@@ -1,5 +1,9 @@
 ## html 过滤库 A library for filtering HTML tags and attributes written in JavaScript
 
+### change log
+
++ npm 2.0.1 change attributes config
+
 ### 过滤标签和属性 - filter tags and attributes
 
 ```
@@ -7,7 +11,8 @@ var html =
 `
 <h1><br /><h1>user info</h1></h1>
 <div id="myid" style="border: 1px solid red">
-    <p>Hello</p>
+    <div style="font-weight: bold">Hello</div>
+    <br />
     <div id="user" onclick="alert(1)">
         <p>zhangsan</p>
         <p>male</p>
@@ -16,16 +21,21 @@ var html =
 </div>
 `;
 
+// 过滤标签和属性 filter tags & attributes
 var obj = new XHtml();
-obj.allowedTags = {div: true, p: true, br: true};
-obj.allowedAttributes = {id: true, style: true};
+obj.allowedTags = {
+    p: null,  // not support attr
+    div: {id: 1, style: 1},  // support id and style attr
+    br: null
+};
 obj.parse(html);
 
 console.log(obj.getHtml())
 
 // the console result:
-<div id="aaa" style="border: 1px solid red">
-    <p>Hello</p>
+<div id="myid" style="border: 1px solid red">
+    <div style="font-weight: bold">Hello</div>
+    <br />
     <div id="user">
         <p>zhangsan</p>
         <p>male</p>
@@ -41,7 +51,8 @@ var html =
 `
 <h1><br /><h1>user info</h1></h1>
 <div id="myid" style="border: 1px solid red">
-    <p>Hello</p>
+    <div style="font-weight: bold">Hello</div>
+    <br />
     <div id="user" onclick="alert(1)">
         <p>zhangsan</p>
         <p>male</p>
@@ -50,9 +61,13 @@ var html =
 </div>
 `;
 
+// 过滤标签和属性 filter tags & attributes
 var obj = new XHtml.XDom();
-obj.allowedTags = {div: true, p: true, br: true};
-obj.allowedAttributes = {id: true, style: true};
+obj.allowedTags = {
+    p: null,  // not support attr
+    div: {id: 1, style: 1},  // support id and style attr
+    br: null
+};
 obj.parse(html);
 
 console.log(obj.getDom());
