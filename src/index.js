@@ -1,6 +1,10 @@
 /**
  * XHtml
  */
+'use strict';
+
+module.exports = XHtml;
+
 function XHtml() {
     this.doc = document;
     this.topRole = 'xhtml-wrapper';

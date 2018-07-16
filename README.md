@@ -5,8 +5,9 @@
 ```
 var html =
 `
+<h1>user info</h1>
 <div style="border: 1px solid red">
-    <h1>Hello</h1>
+    <p>Hello</p>
     <div id="user" onclick="alert(1)">
         <p>zhangsan</p>
         <p>male</p>

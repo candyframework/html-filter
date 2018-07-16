@@ -11,8 +11,9 @@
 <script>
 var html =
 `
+<h1>user info</h1>
 <div style="border: 1px solid red">
-    <h1>Hello</h1>
+    <p>Hello</p>
     <div id="user" onclick="alert(1)">
         <p>zhangsan</p>
         <p>male</p>
@@ -23,7 +24,7 @@ var html =
 
 // 过滤标签和属性 filter tags & attributes
 var obj = new XHtml();
-obj.allowedTags = {div: true, p: true};
+obj.allowedTags = {div: true, p: true, h1: true};
 obj.allowedAttributes = {id: true, style: true};
 obj.parse(html);
 
