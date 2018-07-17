@@ -7,7 +7,7 @@ module.exports = XDom;
 
 function XDom() {
     this.doc = document;
-    this.topRole = 'xhtml-wrapper';
+    this.topRole = 'xdom-wrapper';
     this.unsafeRole = 'unsafe';
 
     // <(xxx)( data-name="lisi") xxx />
@@ -34,12 +34,12 @@ function XDom() {
      */
     this.allowedTags = null;
     
-    this.resetStack();
+    this.reset();
 }
 XDom.prototype = {
     constructor: XDom,
     
-    resetStack: function() {
+    reset: function() {
         // 存放父容器
         this.lookingBackTagstack = new XDomStack();
         

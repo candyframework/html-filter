@@ -9,7 +9,7 @@
 ```
 var html =
 `
-<h1><br /><h1>user info</h1></h1>
+<h1><br /><p>user info</p></h1>
 <div id="myid" style="border: 1px solid red">
     <div style="font-weight: bold">Hello</div>
     <br />
@@ -48,7 +48,7 @@ console.log(obj.getHtml())
 ```
 var html =
 `
-<h1><br /><h1>user info</h1></h1>
+<h1><br /><p>user info</p></h1>
 <div id="myid" style="border: 1px solid red">
     <div style="font-weight: bold">Hello</div>
     <br />

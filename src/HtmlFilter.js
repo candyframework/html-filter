@@ -103,7 +103,13 @@ HtmlFilter.prototype = {
             return;
         }
         
+        // support bug it's parent is illegal
         if(this.illegalStack.size > 0) {
+            if(!this.isSelfClosingTag(nodeName)) {
+                // set illegal flag
+                this.illegalStack.push(nodeName);
+            }
+            
             return;
         }
         
