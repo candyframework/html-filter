@@ -4,6 +4,8 @@
 
 + publish 1.x
 
++ 2018-10-11 publish 2.0.0 change parse() function to filter()
+
 ### 过滤标签和属性 - filter tags and attributes
 
 ```
@@ -27,7 +29,7 @@ obj.allowedTags = {
     div: {id: 1, style: 1},  // support id and style attr
     br: null
 };
-obj.parse(html);
+obj.filter(html);
 
 console.log(obj.getHtml())
 

@@ -31,7 +31,15 @@ function HtmlFilter() {
      */
     this.allowedTags = null;
     
-    this.reset();
+    /**
+     * result string
+     */
+    this.htmlString = '';
+    
+    /**
+     * trace stack
+     */
+    this.illegalStack = null;
     
 }
 HtmlFilter.prototype = {
@@ -168,15 +176,18 @@ HtmlFilter.prototype = {
     },
     
     /**
-     * parse html
+     * filter html
      *
      * @param {String} html
      */
-    parse: function(html) {
+    filter: function(html) {
         var parts = null;
         // the index at which to start the next match
         var lastIndex = 0;
         var tagName = '';
+        
+        // reset first
+        this.reset();
 
         while( null !== (parts = this.htmlPartsRegex.exec(html)) ) {
             // TextNode
@@ -225,6 +236,8 @@ HtmlFilter.prototype = {
                 this.onComment(tagName);
             }
         }
+        
+        return this;
     },
     
     /**
