@@ -7,10 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "filter",
-    "html",
-    "attributes",
-    "tags"
+    "xss",
+    "filter"
   ],
   "repository": {
     "type": "git",
