@@ -14,12 +14,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yulipu/html-filter.git"
+    "url": "git+https://github.com/afuafuyo/html-filter.git"
   },
   "author": "afu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yulipu/html-filter"
+    "url": "https://github.com/afuafuyo/html-filter"
   },
-  "homepage": "https://github.com/yulipu/html-filter#readme"
+  "homepage": "https://github.com/afuafuyo/html-filter#readme"
 }
