@@ -61,6 +61,16 @@ HtmlFilter.prototype = {
     },
     
     /**
+     * Determine whether a attribute is empty
+     *
+     * @param {String} attribute
+     * @return Boolean
+     */
+    isEmptyAttribute: function(attribute) {
+        return 1 === HtmlFilter.emptyAttributes[attribute];
+    },
+    
+    /**
      * Get the support attributes of a tag
      *
      * @param {String} nodeName
@@ -141,7 +151,7 @@ HtmlFilter.prototype = {
         }
         
         // selfClosingTag
-        if(1 === HtmlFilter.selfClosingTags[nodeName]) {
+        if(this.isSelfClosingTag(nodeName)) {
             nodeString += ' /';
         }
         
@@ -217,12 +227,13 @@ HtmlFilter.prototype = {
                         var attrName = attrParts[1];
                         var attrValue = attrParts[2] || attrParts[3] || attrParts[4] || '';
 
-                        if(HtmlFilter.emptyAttributes[attrName]) {
+                        if(this.isEmptyAttribute(attrName)) {
                             attrs[attrName] = attrName;
 
-                        } else {
-                            attrs[attrName] = attrValue;
+                            continue;
                         }
+
+                        attrs[attrName] = attrValue;
                     }
                 }
 
@@ -236,7 +247,7 @@ HtmlFilter.prototype = {
                 this.onComment(tagName);
             }
         }
-        
+
         return this;
     },
     
