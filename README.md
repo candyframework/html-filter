@@ -2,9 +2,8 @@
 
 ### change log
 
-+ publish 1.x
-
-+ 2018-10-11 publish 2.0.0 change parse() function to filter()
++ 2018-10-11 publish 2.0.0 Change parse() function to filter()
++ 2018-12-13 publish 2.0.4 Separate the dom part from main lib
 
 ### 过滤标签和属性 - filter tags and attributes
 
@@ -23,6 +22,7 @@ var html =
 </div>
 `;
 
+var HtmlFilter = require('html-filter');
 var obj = new HtmlFilter();
 obj.allowedTags = {
     p: null,  // not support attr
@@ -62,7 +62,8 @@ var html =
 </div>
 `;
 
-var obj = new HtmlFilter.XDom();
+var XDom = require('html-filter/dom');
+var obj = new XDom();
 obj.allowedTags = {
     p: null,  // not support attr
     div: {id: 1, style: 1},  // support id and style attr
