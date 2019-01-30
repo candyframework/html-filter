@@ -3,9 +3,7 @@
  */
 'use strict';
 
-module.exports = XDom;
-
-function XDom() {
+export default function XDom() {
     this.doc = document;
     this.topRole = 'xdom-wrapper';
     this.unsafeRole = 'unsafe';

@@ -5,9 +5,7 @@
  */
 'use strict';
 
-module.exports = HtmlFilter;
-
-function HtmlFilter() {
+export default function HtmlFilter() {
     
     // <(xxx)( data-name="lisi") xxx />
     // </(xxx)>

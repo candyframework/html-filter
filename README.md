@@ -2,12 +2,31 @@
 
 ### change log
 
++ 2019-01-30 publish 3.0.0 Add browser support
 + 2018-10-11 publish 2.0.0 Change parse() function to filter()
 + 2018-12-13 publish 2.0.4 Separate the dom part from main lib
 
+### 浏览器中使用 ( Browser use )
+
+```javascript
+<script src="index.js"></script>
+<script>
+var htmlFilter = new HtmlFilter();
+// todo sth
+</script>
+```
+
+### Node.js
+
+```javascript
+const HtmlFilter = require('html-filter');
+const htmlFilter = new HtmlFilter();
+// todo sth
+```
+
 ### 过滤标签和属性 - filter tags and attributes
 
-```
+```javascript
 var html =
 `
 <h1><br /><p>user info</p></h1>
@@ -22,7 +41,6 @@ var html =
 </div>
 `;
 
-var HtmlFilter = require('html-filter');
 var obj = new HtmlFilter();
 obj.allowedTags = {
     p: null,  // not support attr
@@ -45,9 +63,20 @@ console.log(obj.getHtml())
 </div>
 ```
 
-### html 转 DOM - translate html string to DOM Element
 
+### translate html string to DOM Element
+
+此插件只能在浏览器端使用
+
+```javascript
+<script src="dom.js"></script>
+<script>
+var obj = new XDom();
+// todo sth
+</script>
 ```
+
+```javascript
 var html =
 `
 <h1><br /><p>user info</p></h1>
@@ -62,7 +91,6 @@ var html =
 </div>
 `;
 
-var XDom = require('html-filter/dom');
 var obj = new XDom();
 obj.allowedTags = {
     p: null,  // not support attr

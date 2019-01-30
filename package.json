@@ -1,6 +1,6 @@
 {
   "name": "html-filter",
-  "version": "2.0.4",
+  "version": "3.0.0",
   "description": "A library for filtering HTML tags and attributes written in JavaScript",
   "main": "index.js",
   "scripts": {
@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/afuafuyo/html-filter"
   },
-  "homepage": "https://github.com/afuafuyo/html-filter#readme"
+  "homepage": "https://github.com/afuafuyo/html-filter#readme",
+  "devDependencies": {
+    "rollup": "^1.1.2"
+  }
 }
