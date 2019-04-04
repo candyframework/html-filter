@@ -68,6 +68,8 @@ console.log(obj.getHtml())
 
 此插件只能在浏览器端使用
 
+因为有些 html 可能不存在一个公共的父节点（如下例） 因此本库解析后生成的 DOM 外面会包裹一层自定义元素 以保证所有节点都存在于父节点之下
+
 ```javascript
 <script src="dom.js"></script>
 <script>

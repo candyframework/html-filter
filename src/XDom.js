@@ -39,12 +39,12 @@ XDom.prototype = {
     
     reset: function() {
         // 存放父容器
-        this.lookingBackTagstack = new XDomStack();
+        this.lookingBackTagStack = new XDomStack();
         
         // 初始放入一个顶级容器
         var node = this.doc.createElement('div');
         node.setAttribute('data-role', this.topRole);
-        this.lookingBackTagstack.push(node);
+        this.lookingBackTagStack.push(node);
         
         node = null;
     },
@@ -67,13 +67,13 @@ XDom.prototype = {
     onText: function(text) {
         var node = this.doc.createTextNode(text);
 
-        this.lookingBackTagstack.getTail().appendChild(node);
+        this.lookingBackTagStack.getTail().appendChild(node);
         
         node = null;
     },
 
     onClose: function(tagName) {
-        var node = this.lookingBackTagstack.pop();
+        var node = this.lookingBackTagStack.pop();
         
         // 删除标签
         if(this.unsafeRole === node.getAttribute('data-role')) {
@@ -113,24 +113,24 @@ XDom.prototype = {
         
         /*
         // 子元素
-        this.lookingBackTagstack.getTail().appendChild(node);
+        this.lookingBackTagStack.getTail().appendChild(node);
         
         // 直接删除不安全自闭合标签
         if(1 === XDom.selfClosingTags[nodeName]
             && this.unsafeRole === node.getAttribute('data-role')) {
-            this.lookingBackTagstack.getTail().removeChild(node);
+            this.lookingBackTagStack.getTail().removeChild(node);
         }
         */
         if(1 !== XDom.selfClosingTags[nodeName]
             || (1 === XDom.selfClosingTags[nodeName]
                 && this.unsafeRole !== node.getAttribute('data-role'))) {
             
-            this.lookingBackTagstack.getTail().appendChild(node);
+            this.lookingBackTagStack.getTail().appendChild(node);
         }
 
         // 开始标签入栈 可以作为父容器使用
         if(1 !== XDom.selfClosingTags[nodeName]) {
-            this.lookingBackTagstack.push(node);
+            this.lookingBackTagStack.push(node);
         }
         
         node = null;
@@ -139,7 +139,7 @@ XDom.prototype = {
     onComment: function(content) {
         var node = this.doc.createComment(content);
 
-        this.lookingBackTagstack.getTail().appendChild(node);
+        this.lookingBackTagStack.getTail().appendChild(node);
         
         node = null;
     },
@@ -203,7 +203,7 @@ XDom.prototype = {
             }
         }
         
-        var top = this.lookingBackTagstack.getTail();
+        var top = this.lookingBackTagStack.getTail();
         if(null !== top && this.topRole !== top.getAttribute('data-role')) {
             throw new Error('unpaired tags');
         }
@@ -215,7 +215,7 @@ XDom.prototype = {
      * @return Object
      */
     getDom: function() {
-        return this.lookingBackTagstack.getHead();
+        return this.lookingBackTagStack.getHead();
     }
 };
 
