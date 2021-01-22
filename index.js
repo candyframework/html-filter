@@ -1,13 +1,13 @@
 /**
  * html-filter
  *
- * @version 3.0.0
+ * @version 3.0.1
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
     (global = global || self, global.HtmlFilter = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
     /**
      * HtmlFilter
@@ -16,7 +16,7 @@
      */
 
     function HtmlFilter() {
-        
+
         // <(xxx)( data-name="lisi") xxx />
         // </(xxx)>
         // <!--(xxx)-->
@@ -29,7 +29,7 @@
 
         // (title)="()"
         this.attributesRegex = /([\w\-:]+)\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^>\s]+))/g;
-        
+
         /**
          * Legal tags
          *
@@ -40,26 +40,26 @@
          * }
          */
         this.allowedTags = null;
-        
+
         /**
          * result string
          */
         this.htmlString = '';
-        
+
         /**
          * trace stack
          */
         this.illegalStack = null;
-        
+
     }
     HtmlFilter.prototype = {
         constructor: HtmlFilter,
         reset: function() {
             this.htmlString = '';
-            
+
             this.illegalStack = new XStack();
         },
-        
+
         /**
          * Determine whether a tag is a selfClosingTag
          *
@@ -67,9 +67,9 @@
          * @return Boolean
          */
         isSelfClosingTag: function(nodeName) {
-            return 1 === HtmlFilter.selfClosingTags[nodeName];
+            return 1 === HtmlFilter.TAGS_SELFCLOSING[nodeName];
         },
-        
+
         /**
          * Determine whether a attribute is empty
          *
@@ -77,9 +77,9 @@
          * @return Boolean
          */
         isEmptyAttribute: function(attribute) {
-            return 1 === HtmlFilter.emptyAttributes[attribute];
+            return 1 === HtmlFilter.ATTRIBUTES_EMPTY[attribute];
         },
-        
+
         /**
          * Get the support attributes of a tag
          *
@@ -87,14 +87,18 @@
          * @return null | Object
          */
         getAllowedAttributes: function(nodeName) {
+            if(null === this.allowedTags) {
+                return null;
+            }
+
             // tag not in white list or tag not support attributes
             if(undefined === this.allowedTags[nodeName] || null === this.allowedTags[nodeName]) {
                 return null;
             }
-            
+
             return this.allowedTags[nodeName];
         },
-        
+
         /**
          * Determine whether the tag is legitimate
          *
@@ -105,42 +109,45 @@
             if(null === this.allowedTags) {
                 return true;
             }
-            
+
             // white list
             // null is exists yet
             if(undefined !== this.allowedTags[nodeName]) {
                 return true;
             }
-            
+
             return false;
         },
-        
+
         onOpen: function(tagName, attributes) {
             var nodeName = tagName.toLowerCase();
             var attrs = attributes;
             var nodeString = '';
-            
-            // tag filter
+
+            // 非法标签
             if(!this.isAllowedTag(nodeName)) {
-                // not selfClosingTag
-                if(!this.isSelfClosingTag(nodeName)) {
-                    // set illegal flag
-                    this.illegalStack.push(nodeName);
+                // selfClosingTag
+                if(this.isSelfClosingTag(nodeName)) {
+                    return;
                 }
-                
+
+                // same tag
+                if(nodeName === this.illegalStack.getTop()) {
+                    return;
+                }
+
+                // normal tag || end omit tag
+                this.illegalStack.push(nodeName);
+
                 return;
             }
-            
-            // support bug it's parent is illegal
+
+            // 合法标签
+            // 非法标签的子标签
             if(this.illegalStack.size > 0) {
-                if(!this.isSelfClosingTag(nodeName)) {
-                    // set illegal flag
-                    this.illegalStack.push(nodeName);
-                }
-                
                 return;
             }
-            
+
             // attributes filter
             var allowedAttributes = this.getAllowedAttributes(nodeName);
             if(null !== allowedAttributes) {
@@ -152,49 +159,51 @@
             }
 
             nodeString = '<' + nodeName;
-            
+
             // null means not support attributes
             if(null !== allowedAttributes) {
                 for(var k in attrs) {
                     nodeString += (' ' + k + '="' + attrs[k] + '"');
                 }
             }
-            
+
             // selfClosingTag
             if(this.isSelfClosingTag(nodeName)) {
                 nodeString += ' /';
             }
-            
+
             nodeString += '>';
-            
+
             this.htmlString += nodeString;
         },
-        
+
         onClose: function(tagName) {
+            var nodeName = tagName.toLowerCase();
+
+            // 直到遇到非法标签的结束标签再移除非法标识
             if(this.illegalStack.size > 0) {
-                this.illegalStack.pop();
-                
+                if(nodeName === this.illegalStack.getTop()) {
+                    this.illegalStack.pop();
+                }
+
                 return;
             }
-            
-            var nodeName = tagName.toLowerCase();
-            var nodeString = '</' + nodeName + '>';
-            
-            this.htmlString += nodeString;
+
+            this.htmlString += '</' + nodeName + '>';
         },
-        
+
         onComment: function(content) {
-            this.onText(content);
+            this.onText('<!--' + content + '-->');
         },
-        
+
         onText: function(text) {
             if(this.illegalStack.size > 0) {
                 return;
             }
-            
+
             this.htmlString += text;
         },
-        
+
         /**
          * filter html
          *
@@ -205,7 +214,7 @@
             // the index at which to start the next match
             var lastIndex = 0;
             var tagName = '';
-            
+
             // reset first
             this.reset();
 
@@ -225,7 +234,7 @@
                     continue;
                 }
 
-                // opening tag & selfClosingTag
+                // opening tag or selfClosingTag
                 if( (tagName = parts[1]) ) {
 
                     var attrParts = null;
@@ -258,13 +267,13 @@
                 }
             }
 
-            return this;
+            return this.getHtml();
         },
-        
+
         /**
          * get html
          */
-        getHtml: function() {        
+        getHtml: function() {
             return this.htmlString;
         }
     };
@@ -272,7 +281,8 @@
     /**
      * selfClosingTag
      */
-    HtmlFilter.selfClosingTags = {
+    HtmlFilter.TAGS_SELFCLOSING = {
+        area: 1,
         meta: 1,
         base: 1,
         link: 1,
@@ -293,7 +303,7 @@
     /**
      * 可以为空的属性
      */
-    HtmlFilter.emptyAttributes = {
+    HtmlFilter.ATTRIBUTES_EMPTY = {
         checked: 1,
         compact: 1,
         declare: 1,
@@ -357,11 +367,11 @@
             return ret;
         },
 
-        getHead: function() {
+        getBottom: function() {
             return null === this.headNode ? null : this.headNode.data;
         },
-        
-        getTail: function() {
+
+        getTop: function() {
             return null === this.tailNode ? null : this.tailNode.data;
         },
 
@@ -393,4 +403,4 @@
 
     return HtmlFilter;
 
-}));
+})));
