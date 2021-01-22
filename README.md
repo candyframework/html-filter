@@ -47,9 +47,8 @@ obj.allowedTags = {
     div: {id: 1, style: 1},  // support id and style attr
     br: null
 };
-obj.filter(html);
 
-console.log(obj.getHtml())
+console.log(obj.filter(html));
 
 // the console result:
 <div id="myid" style="border: 1px solid red">
