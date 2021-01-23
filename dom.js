@@ -22,7 +22,7 @@ var XDom = (function () {
 
         // (title)="()"
         this.attributesRegex = /([\w\-:]+)\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^>\s]+))/g;
-        
+
         /**
          * Legal tags
          *
@@ -33,24 +33,24 @@ var XDom = (function () {
          * }
          */
         this.allowedTags = null;
-        
+
         this.reset();
     }
     XDom.prototype = {
         constructor: XDom,
-        
+
         reset: function() {
             // 存放父容器
             this.lookingBackTagStack = new XDomStack();
-            
+
             // 初始放入一个顶级容器
             var node = this.doc.createElement('div');
             node.setAttribute('data-role', this.topRole);
             this.lookingBackTagStack.push(node);
-            
+
             node = null;
         },
-        
+
         /**
          * Get the support attributes of a tag
          *
@@ -62,33 +62,33 @@ var XDom = (function () {
             if(undefined === this.allowedTags[nodeName] || null === this.allowedTags[nodeName]) {
                 return null;
             }
-            
+
             return this.allowedTags[nodeName];
         },
 
         onText: function(text) {
             var node = this.doc.createTextNode(text);
 
-            this.lookingBackTagStack.getTail().appendChild(node);
-            
+            this.lookingBackTagStack.getTop().appendChild(node);
+
             node = null;
         },
 
         onClose: function(tagName) {
             var node = this.lookingBackTagStack.pop();
-            
+
             // 删除标签
             if(this.unsafeRole === node.getAttribute('data-role')) {
                 node.parentNode.removeChild(node);
             }
-            
+
             node = null;
         },
 
         onOpen: function(tagName, attributes) {
             var nodeName = tagName.toLowerCase();
             var attrs = attributes;
-            
+
             // attributes filter
             var allowedAttributes = this.getAllowedAttributes(nodeName);
             if(null !== allowedAttributes) {
@@ -100,49 +100,49 @@ var XDom = (function () {
             }
 
             var node = this.doc.createElement(nodeName);
-            
+
             if(null !== allowedAttributes) {
                 for(var k in attrs) {
                     node.setAttribute(k, attrs[k]);
                 }
             }
-            
+
             // 设置了标签过滤
             if(null !== this.allowedTags
                 && undefined === this.allowedTags[nodeName]) {
                 node.setAttribute('data-role', this.unsafeRole);
             }
-            
+
             /*
             // 子元素
-            this.lookingBackTagStack.getTail().appendChild(node);
-            
+            this.lookingBackTagStack.getTop().appendChild(node);
+
             // 直接删除不安全自闭合标签
             if(1 === XDom.selfClosingTags[nodeName]
                 && this.unsafeRole === node.getAttribute('data-role')) {
-                this.lookingBackTagStack.getTail().removeChild(node);
+                this.lookingBackTagStack.getTop().removeChild(node);
             }
             */
             if(1 !== XDom.selfClosingTags[nodeName]
                 || (1 === XDom.selfClosingTags[nodeName]
                     && this.unsafeRole !== node.getAttribute('data-role'))) {
-                
-                this.lookingBackTagStack.getTail().appendChild(node);
+
+                this.lookingBackTagStack.getTop().appendChild(node);
             }
 
             // 开始标签入栈 可以作为父容器使用
             if(1 !== XDom.selfClosingTags[nodeName]) {
                 this.lookingBackTagStack.push(node);
             }
-            
+
             node = null;
         },
 
         onComment: function(content) {
             var node = this.doc.createComment(content);
 
-            this.lookingBackTagStack.getTail().appendChild(node);
-            
+            this.lookingBackTagStack.getTop().appendChild(node);
+
             node = null;
         },
 
@@ -204,8 +204,8 @@ var XDom = (function () {
                     this.onComment(tagName);
                 }
             }
-            
-            var top = this.lookingBackTagStack.getTail();
+
+            var top = this.lookingBackTagStack.getTop();
             if(null !== top && this.topRole !== top.getAttribute('data-role')) {
                 throw new Error('unpaired tags');
             }
@@ -217,7 +217,7 @@ var XDom = (function () {
          * @return Object
          */
         getDom: function() {
-            return this.lookingBackTagStack.getHead();
+            return this.lookingBackTagStack.getBottom();
         }
     };
 
@@ -309,11 +309,11 @@ var XDom = (function () {
             return ret;
         },
 
-        getHead: function() {
+        getBottom: function() {
             return null === this.headNode ? null : this.headNode.data;
         },
-        
-        getTail: function() {
+
+        getTop: function() {
             return null === this.tailNode ? null : this.tailNode.data;
         },
 
@@ -321,6 +321,16 @@ var XDom = (function () {
             while(0 !== this.size) {
                 this.pop();
             }
+        },
+
+        toString: function() {
+            var str = '[ ';
+
+            for(var current = this.headNode; null !== current; current = current.next) {
+                str += current.data + ' ';
+            }
+
+            return str + ' ]';
         }
     };
 

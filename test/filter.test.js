@@ -8,25 +8,19 @@ describe('Test filter tag', function() {
     it('remove not support tag', function() {
         htmlFilter.allowedTags = { p: null };
         htmlFilter.filter('<!-- abc --><div>hello</div>');
-        assert.equal(htmlFilter.getHtml(), '<!-- abc -->');
+        assert.equal(htmlFilter.getHtml(), '<!-- abc -->hello');
     });
 
     it('remove not support tag2', function() {
         htmlFilter.allowedTags = { p: null };
         htmlFilter.filter('<p>outer<div>hello</div></p>');
-        assert.equal(htmlFilter.getHtml(), '<p>outer</p>');
+        assert.equal(htmlFilter.getHtml(), '<p>outerhello</p>');
     });
 
-    it('remove child tag', function() {
+    it('remove not support tag3', function() {
         htmlFilter.allowedTags = { p: null, br: null };
-        htmlFilter.filter('<div><br /><p>hello</p></div>');
-        assert.equal(htmlFilter.getHtml(), '');
-    });
-
-    it('multiple top level tag', function() {
-        htmlFilter.allowedTags = { p: null };
-        htmlFilter.filter('<p>show</p><div>remove</div>');
-        assert.equal(htmlFilter.getHtml(), '<p>show</p>');
+        htmlFilter.filter('<div><br/><p>hello</p></div>');
+        assert.equal(htmlFilter.getHtml(), '<br /><p>hello</p>');
     });
 });
 

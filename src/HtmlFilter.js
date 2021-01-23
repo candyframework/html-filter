@@ -36,18 +36,11 @@ export default function HtmlFilter() {
      */
     this.htmlString = '';
 
-    /**
-     * trace stack
-     */
-    this.illegalStack = null;
-
 }
 HtmlFilter.prototype = {
     constructor: HtmlFilter,
     reset: function() {
         this.htmlString = '';
-
-        this.illegalStack = new XStack();
     },
 
     /**
@@ -116,25 +109,6 @@ HtmlFilter.prototype = {
 
         // 非法标签
         if(!this.isAllowedTag(nodeName)) {
-            // selfClosingTag
-            if(this.isSelfClosingTag(nodeName)) {
-                return;
-            }
-
-            // same tag
-            if(nodeName === this.illegalStack.getTop()) {
-                return;
-            }
-
-            // normal tag || end omit tag
-            this.illegalStack.push(nodeName);
-
-            return;
-        }
-
-        // 合法标签
-        // 非法标签的子标签
-        if(this.illegalStack.size > 0) {
             return;
         }
 
@@ -170,12 +144,8 @@ HtmlFilter.prototype = {
     onClose: function(tagName) {
         var nodeName = tagName.toLowerCase();
 
-        // 直到遇到非法标签的结束标签再移除非法标识
-        if(this.illegalStack.size > 0) {
-            if(nodeName === this.illegalStack.getTop()) {
-                this.illegalStack.pop();
-            }
-
+        // 非法标签
+        if(!this.isAllowedTag(nodeName)) {
             return;
         }
 
@@ -187,10 +157,6 @@ HtmlFilter.prototype = {
     },
 
     onText: function(text) {
-        if(this.illegalStack.size > 0) {
-            return;
-        }
-
         this.htmlString += text;
     },
 
@@ -308,85 +274,3 @@ HtmlFilter.ATTRIBUTES_EMPTY = {
     readonly: 1,
     selected: 1
 };
-
-/**
- * Stack
- */
-function XStack() {
-    this.headNode = null;
-    this.tailNode = null;
-    this.size = 0;
-}
-XStack.prototype = {
-    constructor: XStack,
-
-    push: function(data) {
-        var node = new XStackNode(data, null, null);
-
-        if(0 === this.size) {
-            this.headNode = node;
-
-        } else {
-            this.tailNode.next = node;
-            node.prev = this.tailNode;
-        }
-
-        this.tailNode = node;
-
-        this.size++;
-    },
-
-    pop: function() {
-        var ret = this.tailNode.data;
-
-        if(0 === this.size) {
-            return null;
-        }
-        if(1 === this.size) {
-            this.headNode = this.tailNode = null;
-            this.size--;
-
-            return ret;
-        }
-
-        this.tailNode = this.tailNode.prev;
-        this.tailNode.next.prev = null;
-        this.tailNode.next = null;
-        this.size--;
-
-        return ret;
-    },
-
-    getBottom: function() {
-        return null === this.headNode ? null : this.headNode.data;
-    },
-
-    getTop: function() {
-        return null === this.tailNode ? null : this.tailNode.data;
-    },
-
-    clear: function() {
-        while(0 !== this.size) {
-            this.pop();
-        }
-    },
-
-    toString: function() {
-        var str = '[ ';
-
-        for(var current = this.headNode; null !== current; current = current.next) {
-            str += current.data + ' ';
-        }
-
-        return str + ' ]';
-    }
-};
-
-/**
- * Node
- */
-function XStackNode(data, prev, next) {
-    this.data = data;
-    this.prev = prev;
-    this.next = next;
-}

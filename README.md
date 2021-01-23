@@ -1,5 +1,25 @@
 ## html 过滤库 A library for filtering HTML tags and attributes written in JavaScript
 
+## 4.0 变化
+
+从 4.0 开始，过滤标签时不再删除子元素，只会关注标签是否需要过滤，行为如下
+
+```
+// before 4.0
+htmlFilter.allowedTags = { p: null, br: null };
+htmlFilter.filter('<div><br /><p>hello</p></div>');
+
+result is: ''
+```
+
+```
+// 4.0 +
+htmlFilter.allowedTags = { p: null, br: null };
+htmlFilter.filter('<div><br /><p>hello</p></div>');
+
+result is: '<br /><p>hello</p>'
+```
+
 ### change log
 
 + 2019-01-30 publish 3.0.0 Add browser support
@@ -51,6 +71,7 @@ obj.allowedTags = {
 console.log(obj.filter(html));
 
 // the console result:
+<br /><p>user info</p>
 <div id="myid" style="border: 1px solid red">
     <div style="font-weight: bold">Hello</div>
     <br />
