@@ -208,7 +208,7 @@
 
                     // attributes
                     if(parts[2]) {
-                        while ( null !== ( attrParts = this.attributesRegex.exec(parts[2]) ) ) {
+                        while( null !== ( attrParts = this.attributesRegex.exec(parts[2]) ) ) {
                             var attrName = attrParts[1];
                             var attrValue = attrParts[2] || attrParts[3] || attrParts[4] || '';
 

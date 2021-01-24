@@ -22,6 +22,18 @@ describe('Test filter tag', function() {
         htmlFilter.filter('<div><br/><p>hello</p></div>');
         assert.equal(htmlFilter.getHtml(), '<br /><p>hello</p>');
     });
+
+    it('end omit tag', function() {
+        htmlFilter.allowedTags = { p: null, div: null };
+        htmlFilter.filter('<div><p>111<p>222<b>bbb</b></div>');
+        assert.equal(htmlFilter.getHtml(), '<div><p>111<p>222bbb</div>');
+    });
+
+    it('end omit tag2', function() {
+        htmlFilter.allowedTags = { div: null };
+        htmlFilter.filter('<div><p>111<p>222<b>bbb</b></div>');
+        assert.equal(htmlFilter.getHtml(), '<div>111222bbb</div>');
+    });
 });
 
 describe('Test filter attr', function() {
