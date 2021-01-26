@@ -1,7 +1,7 @@
 /**
  * html-filter
  *
- * @version 4.0.0
+ * @version 4.1.0
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -28,7 +28,10 @@
         this.htmlPartsRegex = /<(?:(?:(\w+)((?:\s+[\w\-:]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)[\S\s]*?\/?>)|(?:\/([^>]+)>)|(?:!--([\S|\s]*?)-->))/g;
 
         // (title)="()"
-        this.attributesRegex = /([\w\-:]+)\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^>\s]+))/g;
+        // (title)='()'
+        // (title)=()
+        // disabled
+        this.attributesRegex = /(?:([\w\-]+)\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^>\s]+)))|([\w\-]+)/g;
 
         /**
          * Legal tags
@@ -212,13 +215,23 @@
                             var attrName = attrParts[1];
                             var attrValue = attrParts[2] || attrParts[3] || attrParts[4] || '';
 
-                            if(this.isEmptyAttribute(attrName)) {
-                                attrs[attrName] = attrName;
+                            // empty attr
+                            if(attrParts[5]) {
+                                attrName = attrParts[5];
+                                if(this.isEmptyAttribute(attrName)) {
+                                    attrs[attrName] = attrName;
+                                }
 
                                 continue;
                             }
 
-                            attrs[attrName] = attrValue;
+                            // common attr
+                            if(this.isEmptyAttribute(attrName)) {
+                                attrs[attrName] = attrName;
+
+                            } else {
+                                attrs[attrName] = attrValue;
+                            }
                         }
                     }
 

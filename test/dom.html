@@ -14,6 +14,7 @@ var html =
 <div id="myid" style="border: 1px solid red">
     <!-- comment -->
     <div style="font-weight: bold">Hello</div>
+    <input disabled />
     <br />
     <div id="user" onclick="alert(1)">
         <p>zhangsan</p>
@@ -26,12 +27,13 @@ var html =
 var obj = new XDom();
 obj.allowedTags = {
     p: null,  // not support attr
+    input: {disabled: 1},
     div: {id: 1, style: 1},  // support id and style attr
     br: null
 };
 obj.parse(html);
 
-console.log(obj.getDom());
+document.body.appendChild(obj.getDom());
 </script>
 </body>
 </html>

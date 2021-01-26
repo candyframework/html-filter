@@ -43,6 +43,12 @@ describe('Test filter attr', function() {
         assert.equal(htmlFilter.getHtml(), '<div id="myid">hello</div>');
     });
 
+    it('hold attr2', function() {
+        htmlFilter.allowedTags = { button: {readonly: 1} };
+        htmlFilter.filter('<button disabled readonly>button</button>');
+        assert.equal(htmlFilter.getHtml(), '<button readonly="readonly">button</button>');
+    });
+
     it('remove not support attr', function() {
         htmlFilter.allowedTags = { div: {id: 1} };
         htmlFilter.filter('<div id="myid" style="color: red">hello</div>');

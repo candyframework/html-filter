@@ -19,7 +19,7 @@ export default function XDom() {
     this.htmlPartsRegex = /<(?:(?:(\w+)((?:\s+[\w\-:]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)[\S\s]*?\/?>)|(?:\/([^>]+)>)|(?:!--([\S|\s]*?)-->))/g;
 
     // (title)="()"
-    this.attributesRegex = /([\w\-:]+)\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^>\s]+))/g;
+    this.attributesRegex = /(?:([\w\-]+)\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^>\s]+)))|([\w\-]+)/g;
 
     /**
      * Legal tags
@@ -182,6 +182,16 @@ XDom.prototype = {
                     while ( null !== ( attrParts = this.attributesRegex.exec(parts[2]) ) ) {
                         var attrName = attrParts[1];
                         var attrValue = attrParts[2] || attrParts[3] || attrParts[4] || '';
+
+                        // empty attr
+                        if(attrParts[5]) {
+                            attrName = attrParts[5];
+                            if(XDom.emptyAttributes[attrName]) {
+                                attrs[attrName] = attrName;
+                            }
+
+                            continue;
+                        }
 
                         if(XDom.emptyAttributes[attrName]) {
                             attrs[attrName] = attrName;
