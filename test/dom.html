@@ -5,6 +5,7 @@
     <title>XDom</title>
     <script>var module = {exports: {}}</script>
     <script src="../dom.js"></script>
+    <script src="../index.js"></script>
 </head>
 <body>
 <script>
@@ -34,6 +35,28 @@ obj.allowedTags = {
 obj.parse(html);
 
 document.body.appendChild(obj.getDom());
+</script>
+
+<script>
+var tmp =
+`
+<div>
+    <p>111111111</p>
+    <p
+        style="color: red"
+    >22222</p>
+    <p data-role="danger">22222</p>
+    <p data-id="1">22222</p>
+    <blockquote>aaaa</blockquote>
+</div>
+`;
+var filter = new HtmlFilter();
+filter.allowedTags = {
+    div: null,
+    p: {style: 1, 'data-id': 1},
+    blockquote: null
+};
+console.log(filter.filter(tmp));
 </script>
 </body>
 </html>
