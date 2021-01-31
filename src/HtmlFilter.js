@@ -222,8 +222,8 @@ HtmlFilter.prototype = {
             }
 
             // comment
-            if( (tagName = parts[4]) ) {
-                this.onComment(tagName);
+            if( parts[4] ) {
+                this.onComment(parts[4]);
             }
         }
 
