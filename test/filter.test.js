@@ -7,8 +7,8 @@ var htmlFilter = new HtmlFilter();
 describe('Test filter tag', function() {
     it('remove not support tag', function() {
         htmlFilter.allowedTags = { p: null };
-        htmlFilter.filter('<!-- abc --><div>hello</div>');
-        assert.equal(htmlFilter.getHtml(), '<!-- abc -->hello');
+        htmlFilter.filter('<!-- 这里是中文注释 --><div>hello</div>');
+        assert.equal(htmlFilter.getHtml(), '<!-- 这里是中文注释 -->hello');
     });
 
     it('remove not support tag2', function() {
@@ -39,8 +39,8 @@ describe('Test filter tag', function() {
 describe('Test filter attr', function() {
     it('hold attr', function() {
         htmlFilter.allowedTags = { div: {id: 1} };
-        htmlFilter.filter('<div id="myid">hello</div>');
-        assert.equal(htmlFilter.getHtml(), '<div id="myid">hello</div>');
+        htmlFilter.filter('<div id="myid">你好</div>');
+        assert.equal(htmlFilter.getHtml(), '<div id="myid">你好</div>');
     });
 
     it('hold attr2', function() {
