@@ -15,15 +15,15 @@ export default function HtmlFilter() {
     // 2. 代表整个属性部分 该部分可有可无
     // 3. 代表结束标签名称
     // 4. 代表注释内容
-    this.htmlPartsRegex = /<(?:(?:(\w+)((?:\s+[\w\-]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)[\S\s]*?\/?>)|(?:\/([^>]+)>)|(?:!--([\S|\s]*?)-->))/g;
-    //                            |___|       |____|              |_________| |_________| |______|     |_________|   |____________|
-    //                       带属性的标签名   属性名                属性值      属性值     属性值        标签结束       结束标签
+    this.htmlPartsRegex = /<(?:(?:(\w+)((?:\s+[\w\-]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^>\s]+))?)*)[\S\s]*?\/?>)|(?:\/([^>]+)>)|(?:!--([\S|\s]*?)-->))/g;
+    //                            |___|       |_____|          |_________________________|     |__________|   |__________|
+    //                       带属性的标签名   属性名                     属性值                  标签结束       结束标签
 
+    // (disabled)
     // (title)="()"
     // (title)='()'
     // (title)=()
-    // disabled
-    this.attributesRegex = /(?:([\w\-]+)\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^>\s]+)))|([\w\-]+)/g;
+    this.attributesRegex = /(?:([\w\-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^>\s]+)))?)/g;
 
     /**
      * Legal tags
@@ -207,17 +207,6 @@ HtmlFilter.prototype = {
                         var attrName = attrParts[1];
                         var attrValue = attrParts[2] || attrParts[3] || attrParts[4] || '';
 
-                        // empty attr
-                        if(attrParts[5]) {
-                            attrName = attrParts[5];
-                            if(this.isEmptyAttribute(attrName)) {
-                                attrs[attrName] = attrName;
-                            }
-
-                            continue;
-                        }
-
-                        // common attr
                         if(this.isEmptyAttribute(attrName)) {
                             attrs[attrName] = attrName;
 
