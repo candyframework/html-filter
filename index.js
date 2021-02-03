@@ -1,7 +1,7 @@
 /**
  * html-filter
  *
- * @version 4.1.0
+ * @version 4.1.1
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
