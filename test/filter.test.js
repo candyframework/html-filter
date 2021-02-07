@@ -5,16 +5,23 @@ var htmlFilter = new HtmlFilter();
 
 // test
 describe('Test filter tag', function() {
+    it('remove all tag', function() {
+        htmlFilter.filter('<!-- 这里是中文注释 --><div>hello<p> 世界</div>');
+        assert.equal(htmlFilter.getHtml(), 'hello 世界');
+    });
+
     it('remove not support tag', function() {
         htmlFilter.allowedTags = { p: null };
+        htmlFilter.allowedComment = true;
         htmlFilter.filter('<!-- 这里是中文注释 --><div>hello</div>');
+        htmlFilter.allowedComment = false;
         assert.equal(htmlFilter.getHtml(), '<!-- 这里是中文注释 -->hello');
     });
 
     it('remove not support tag2', function() {
-        htmlFilter.allowedTags = { p: null };
-        htmlFilter.filter('<p>outer<div>hello</div></p>');
-        assert.equal(htmlFilter.getHtml(), '<p>outerhello</p>');
+        htmlFilter.allowedTags = { a: {href: 1} };
+        htmlFilter.filter('<p>outer<a href="#anchor" title="测试">hello</a></p>');
+        assert.equal(htmlFilter.getHtml(), 'outer<a href="#anchor">hello</a>');
     });
 
     it('remove not support tag3', function() {

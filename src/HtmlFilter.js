@@ -37,6 +37,11 @@ export default function HtmlFilter() {
     this.allowedTags = null;
 
     /**
+     * Whether allow comment tag
+     */
+    this.allowedComment = false;
+
+    /**
      * result string
      */
     this.htmlString = '';
@@ -95,7 +100,7 @@ HtmlFilter.prototype = {
      */
     isAllowedTag: function(nodeName) {
         if(null === this.allowedTags) {
-            return true;
+            return false;
         }
 
         // white list
@@ -158,6 +163,10 @@ HtmlFilter.prototype = {
     },
 
     onComment: function(content) {
+        if(!this.allowedComment) {
+            return;
+        }
+
         this.onText('<!--' + content + '-->');
     },
 

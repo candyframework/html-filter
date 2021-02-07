@@ -47,6 +47,11 @@
         this.allowedTags = null;
 
         /**
+         * Whether allow comment tag
+         */
+        this.allowedComment = false;
+
+        /**
          * result string
          */
         this.htmlString = '';
@@ -105,7 +110,7 @@
          */
         isAllowedTag: function(nodeName) {
             if(null === this.allowedTags) {
-                return true;
+                return false;
             }
 
             // white list
@@ -168,6 +173,10 @@
         },
 
         onComment: function(content) {
+            if(!this.allowedComment) {
+                return;
+            }
+
             this.onText('<!--' + content + '-->');
         },
 

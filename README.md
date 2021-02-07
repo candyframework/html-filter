@@ -22,8 +22,14 @@ result is: '<br /><p>hello</p>'
 
 ### change log
 
++ 2021-02-07 publish 4.2 all tags wouled be removed will the allowedTags attribute is not init with a whitelist
+
++ 2021-02-03 publish 4.1 optimize the regexp
+
 + 2019-01-30 publish 3.0.0 Add browser support
+
 + 2018-10-11 publish 2.0.0 Change parse() function to filter()
+
 + 2018-12-13 publish 2.0.4 Separate the dom part from main lib
 
 ### 浏览器中使用 ( Browser use )

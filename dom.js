@@ -34,6 +34,8 @@ var XDom = (function () {
          */
         this.allowedTags = null;
 
+        this.allowedComment = false;
+
         this.reset();
     }
     XDom.prototype = {
@@ -139,6 +141,10 @@ var XDom = (function () {
         },
 
         onComment: function(content) {
+            if(!this.allowedComment) {
+                return;
+            }
+
             var node = this.doc.createComment(content);
 
             this.lookingBackTagStack.getTop().appendChild(node);
