@@ -20,6 +20,12 @@ htmlFilter.filter('<div><br /><p>hello</p></div>');
 result is: '<br /><p>hello</p>'
 ```
 
+## More
+
+[php version html-filter](https://packagist.org/packages/afuafuyo/html-filter-php)
+
+[js version html-filter](https://www.npmjs.com/package/html-filter)
+
 ### change log
 
 + 2021-02-07 publish 4.2 all tags wouled be removed will the allowedTags attribute is not init with a whitelist
