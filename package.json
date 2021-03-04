@@ -1,6 +1,6 @@
 {
   "name": "html-filter",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "A library for filter html tags and attributes and defending against XSS attacks",
   "main": "index.js",
   "scripts": {
@@ -14,14 +14,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/afuafuyo/html-filter.git"
+    "url": "https://github.com/douyu-beijing/html-filter"
   },
   "author": "afu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/afuafuyo/html-filter"
+    "url": "https://github.com/douyu-beijing/html-filter"
   },
-  "homepage": "https://github.com/afuafuyo/html-filter#readme",
+  "homepage": "https://github.com/douyu-beijing/html-filter#readme",
   "devDependencies": {
     "rollup": "^1.1.2"
   }
