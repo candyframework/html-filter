@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>filter</title>
+    <script>var module = {exports: {}}</script>
+    <script src="../index.js"></script>
+
+    <style type="text/css" rel="stylesheet">
+    .wrapper {
+        width: 600px;
+        margin: 0 auto;
+    }
+    textarea {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    .btn {
+        box-sizing: border-box;
+        width: 100%;
+        height: 36px;
+        line-height: 36px;
+        background-color: #108ee9;
+        color: #fff;
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
+    .btn:hover {
+        opacity: .8;
+    }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <textarea id="input"></textarea>
+    <div class="btn" id="btn">过滤</div>
+    <textarea id="output"></textarea>
+</div>
+
+<script>
+const btn = document.getElementById('btn');
+
+btn.onclick = () => {
+    const html = document.getElementById('input').value;
+    const obj = new HtmlFilter();
+    obj.allowedTags = {
+        p: null,  // not support attr
+        div: {id: 1, style: 1},  // support id and style attr
+        br: null,
+        img: {src: 1},
+        svg: null
+    };
+
+    document.getElementById('output').value = obj.filter(html);
+};
+</script>
+</body>
+</html>
