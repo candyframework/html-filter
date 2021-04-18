@@ -28,6 +28,8 @@ result is: '<br /><p>hello</p>'
 
 ### change log
 
++ 2021-04-18 publish 4.2.2 fix pure text filter bug
+
 + 2021-02-07 publish 4.2 all tags wouled be removed will the allowedTags attribute is not init with a whitelist
 
 + 2021-02-03 publish 4.1 optimize the regexp

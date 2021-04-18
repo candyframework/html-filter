@@ -1,7 +1,7 @@
 /**
  * html-filter
  *
- * @version 4.1.1
+ * @version 4.2.1
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -194,14 +194,16 @@
             // the index at which to start the next match
             var lastIndex = 0;
             var tagName = '';
+            // 添加临时节点 以便进行匹配
+            var htmlString = html + '<htmlfilter />';
 
             // reset first
             this.reset();
 
-            while( null !== (parts = this.htmlPartsRegex.exec(html)) ) {
+            while( null !== (parts = this.htmlPartsRegex.exec(htmlString)) ) {
                 // TextNode
                 if(parts.index > lastIndex) {
-                    var text = html.substring( lastIndex, parts.index );
+                    var text = htmlString.substring( lastIndex, parts.index );
 
                     this.onText(text);
                 }

@@ -74,3 +74,11 @@ describe('Test filter attr', function() {
         assert.equal(htmlFilter.getHtml(), '<div data-role="role">hello world</div>');
     });
 });
+
+describe('Test has no tag', function() {
+    it('pure text', function() {
+        htmlFilter.allowedTags = { div: {id: 1} };
+        htmlFilter.filter('111122223333');
+        assert.equal(htmlFilter.getHtml(), '111122223333');
+    });
+});
