@@ -12,9 +12,9 @@ describe('Test filter tag', function() {
 
     it('remove not support tag', function() {
         htmlFilter.allowedTags = { p: null };
-        htmlFilter.allowedComment = true;
+        htmlFilter.allowComment = true;
         htmlFilter.filter('<!-- 这里是中文注释 --><div>hello</div>');
-        htmlFilter.allowedComment = false;
+        htmlFilter.allowComment = false;
         assert.equal(htmlFilter.getHtml(), '<!-- 这里是中文注释 -->hello');
     });
 
@@ -75,9 +75,9 @@ describe('Test filter attr', function() {
     });
 });
 
-describe('Test has no tag', function() {
+describe('Test pure text', function() {
     it('pure text', function() {
-        htmlFilter.allowedTags = { div: {id: 1} };
+        htmlFilter.allowedTags = null;
         htmlFilter.filter('111122223333');
         assert.equal(htmlFilter.getHtml(), '111122223333');
     });

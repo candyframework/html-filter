@@ -1,7 +1,7 @@
 /**
  * html-filter
  *
- * @version 4.2.1
+ * @version 4.2.2
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -49,7 +49,7 @@
         /**
          * Whether allow comment tag
          */
-        this.allowedComment = false;
+        this.allowComment = false;
 
         /**
          * result string
@@ -173,7 +173,7 @@
         },
 
         onComment: function(content) {
-            if(!this.allowedComment) {
+            if(!this.allowComment) {
                 return;
             }
 
@@ -226,7 +226,16 @@
                     if(parts[2]) {
                         while( null !== ( attrParts = this.attributesRegex.exec(parts[2]) ) ) {
                             var attrName = attrParts[1];
-                            var attrValue = attrParts[2] || attrParts[3] || attrParts[4] || '';
+                            var attrValue = '';
+                            if(attrParts[2]) {
+                                attrValue = attrParts[2];
+
+                            } else if(attrParts[3]) {
+                                attrValue = attrParts[3];
+
+                            } else if(attrParts[4]) {
+                                attrValue = attrParts[4];
+                            }
 
                             if(this.isEmptyAttribute(attrName)) {
                                 attrs[attrName] = attrName;

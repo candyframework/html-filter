@@ -39,7 +39,7 @@ export default function HtmlFilter() {
     /**
      * Whether allow comment tag
      */
-    this.allowedComment = false;
+    this.allowComment = false;
 
     /**
      * result string
@@ -163,7 +163,7 @@ HtmlFilter.prototype = {
     },
 
     onComment: function(content) {
-        if(!this.allowedComment) {
+        if(!this.allowComment) {
             return;
         }
 
@@ -216,7 +216,16 @@ HtmlFilter.prototype = {
                 if(parts[2]) {
                     while( null !== ( attrParts = this.attributesRegex.exec(parts[2]) ) ) {
                         var attrName = attrParts[1];
-                        var attrValue = attrParts[2] || attrParts[3] || attrParts[4] || '';
+                        var attrValue = '';
+                        if(attrParts[2]) {
+                            attrValue = attrParts[2];
+
+                        } else if(attrParts[3]) {
+                            attrValue = attrParts[3];
+
+                        } else if(attrParts[4]) {
+                            attrValue = attrParts[4];
+                        }
 
                         if(this.isEmptyAttribute(attrName)) {
                             attrs[attrName] = attrName;
