@@ -33,7 +33,7 @@
         // (title)="()"
         // (title)='()'
         // (title)=()
-        this.attributesRegex = /(?:([\w\-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^>\s]+)))?)/g;
+        this.attributesRegex = /(?:([-\w]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^>\s]+)))?)/g;
 
         /**
          * Legal tags
