@@ -19,7 +19,7 @@ export default function XDom() {
     this.htmlPartsRegex = /(?:<([-\w]+)((?:\s+[-\w]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^>\s]+))?)*)[\S\s]*?\/?>)|(?:<\/([^>]+)>)|(?:<!--([\S|\s]*?)-->)/g;
 
     // (title)="()"
-    this.attributesRegex = /(?:([\w\-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^>\s]+)))?)/g;
+    this.attributesRegex = /(?:([-\w]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^>\s]+)))?)/g;
 
     /**
      * Legal tags
