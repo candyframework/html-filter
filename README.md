@@ -28,6 +28,8 @@ result is: '<br /><p>hello</p>'
 
 ### change log
 
++ 2021-05-21 publish 4.3.0 add custom element support
+
 + 2021-04-18 publish 4.2.2 fix pure text filter bug
 
 + 2021-02-07 publish 4.2 all tags wouled be removed will the allowedTags attribute is not init with a whitelist

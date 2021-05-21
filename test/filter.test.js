@@ -75,6 +75,19 @@ describe('Test filter attr', function() {
     });
 });
 
+describe('Test filter custom element', function() {
+    it('filter custom element', function() {
+        htmlFilter.allowedTags = { 'my-ele': {'data-role': 1} };
+        htmlFilter.filter('<my-ele data-role="role">hello world<page-one>111</page-one></my-ele>');
+        assert.equal(htmlFilter.getHtml(), '<my-ele data-role="role">hello world111</my-ele>');
+    });
+    it('filter custom element2', function() {
+        htmlFilter.allowedTags = { 'page-one': null };
+        htmlFilter.filter('<my-ele data-role="role">hello world<page-one>111</page-one></my-ele>');
+        assert.equal(htmlFilter.getHtml(), 'hello world<page-one>111</page-one>');
+    });
+});
+
 describe('Test pure text', function() {
     it('pure text', function() {
         htmlFilter.allowedTags = null;
