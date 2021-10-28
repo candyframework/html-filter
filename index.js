@@ -1,7 +1,7 @@
 /**
  * html-filter
  *
- * @version 4.3.0
+ * @version 4.3.1
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -122,6 +122,10 @@
             return false;
         },
 
+        filterAttribute: function(name, value) {
+            return value.replace(/"/g, '');
+        },
+
         onOpen: function(tagName, attributes) {
             var nodeName = tagName.toLowerCase();
             var attrs = attributes;
@@ -147,7 +151,7 @@
             // null means not support attributes
             if(null !== allowedAttributes) {
                 for(var k in attrs) {
-                    nodeString += (' ' + k + '="' + attrs[k] + '"');
+                    nodeString += (' ' + k + '="' + this.filterAttribute(k, attrs[k]) + '"');
                 }
             }
 
