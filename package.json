@@ -1,6 +1,6 @@
 {
   "name": "html-filter",
-  "version": "4.3.2",
+  "version": "4.3.3",
   "description": "A library for filter html tags and attributes and defending against XSS attacks",
   "main": "index.js",
   "scripts": {
@@ -14,14 +14,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/douyu-beijing/html-filter"
+    "url": "https://github.com/candyframework/html-filter"
   },
   "author": "afu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/douyu-beijing/html-filter"
+    "url": "https://github.com/candyframework/html-filter"
   },
-  "homepage": "https://github.com/douyu-beijing/html-filter#readme",
+  "homepage": "https://github.com/candyframework/html-filter#readme",
   "devDependencies": {
     "rollup": "^1.1.2"
   }
